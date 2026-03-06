@@ -13,6 +13,23 @@ services:
       timeout: 5s
       retries: 10
 
+  seed:
+    image: postgres:16
+    profiles:
+      - seed
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/sql:/seed/sql:ro
+    command:
+      [
+        "sh",
+        "-c",
+        "psql postgresql://results_user:results_pass@db:5432/results_db -v ON_ERROR_STOP=1 -f /seed/sql/schema.sql && psql postgresql://results_user:results_pass@db:5432/results_db -v ON_ERROR_STOP=1 -f /seed/sql/mock_data.sql",
+      ]
+    restart: "no"
+
   backend:
     build:
       context: ./backend

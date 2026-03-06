@@ -12,8 +12,14 @@
 
 Из корня репозитория:
 
+Без сидов:
 ```bash
 docker compose up --build -d
+```
+
+С сидами:
+```bash
+docker compose --profile seed up --build -d
 ```
 
 Frontend: http://127.0.0.1:5173
@@ -24,24 +30,18 @@ Docs: http://127.0.0.1:8000/docs
 
 Поднять PostgreSQL + API в Docker:
 
+Без сидов:
 ```bash
 docker compose up --build -d
 ```
 
-API: http://127.0.0.1:8000
-Docs (Swagger): http://127.0.0.1:8000/docs
-
-## Наполнение mock-данными
-
-После запуска контейнеров выполните:
-
+С сидами:
 ```bash
-docker compose exec -T db psql -U results_user -d results_db < sql/mock_data.sql
+docker compose --profile seed up --build -d
 ```
 
-Файл с данными: [sql/mock_data.sql](sql/mock_data.sql)
-
-Тестовые `parse_session.id`: `1`, `2`, `3`
+API: http://127.0.0.1:8000
+Docs (Swagger): http://127.0.0.1:8000/docs
 
 ## Основные эндпоинты
 
